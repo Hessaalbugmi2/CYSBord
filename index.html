@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta viewport="width=device-width, initial-scale=1.0">
+    <title>Leaderboard Control</title>
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --hover-color: #0056b3;
+            --red-team-color: #dc3545;
+            --blue-team-color: #007bff;
+            --background-color: #f8f9fa;
+            --text-color: #212529;
+            --input-background: #ffffff;
+            --input-border-color: #ced4da;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+
+        a.team-link {
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: .25rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 2px 4px 0 rgba(0,0,0,.2);
+            margin: 10px;
+        }
+
+        .team-link.red {
+            background-color: var(--red-team-color);
+        }
+
+        .team-link.blue {
+            background-color: var(--blue-team-color);
+        }
+
+        .team-link.red:hover {
+            background-color: darken(var(--red-team-color), 10%);
+        }
+
+        .team-link.blue:hover {
+            background-color: darken(var(--blue-team-color), 10%);
+        }
+
+        .button {
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: .25rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 2px 4px 0 rgba(0,0,0,.2);
+        }
+
+        .button:hover {
+            background-color: var(--hover-color);
+        }
+
+        .form-input {
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: center;
+        }
+
+        input[type="text"], input[type="number"], select {
+            padding: 10px;
+            width: 80%;
+            margin-bottom: 10px;
+            border-radius: .25rem;
+            border: 1px solid var(--input-border-color);
+            transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+            box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+            background-color: var(--input-background);
+        }
+
+        input[type="text"]:focus, input[type="number"]:focus, select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+        }
+
+        select {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Leaderboard Control Panel</h1>
+    <a href="blue-team.html" class="team-link blue">Blue Team</a>
+    <a href="red-team.html" class="team-link red">Red Team</a>
+
+    <div>
+        <div class="form-input"><input type="text" id="name" placeholder="Name"></div>
+        <div class="form-input"><input type="number" id="score" placeholder="Score"></div>
+        <div class="form-input">
+            <select id="team">
+                <option value="red">Red</option>
+                <option value="blue">Blue</option>
+            </select>
+        </div>
+        <button class="button" onclick="submitEntry()">Add Entry</button>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-database.js"></script>
+    <script src="index.js"></script>
+</body>
+</html>

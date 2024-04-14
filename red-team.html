@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Red Team Leaderboard Results</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@200;300;400;500&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+         :root {
+            --text-color: #e34242;
+            --header-color: #c9610c;
+            --accent-color: #FF0000;
+            --font-stack: 'Orbitron', serif;
+            --font-size: 14px;
+            --first-place-color: #FFD700;
+            --second-place-color: #C0C0C0;
+            --third-place-color: #CD7F32;
+        }
+        
+        body {
+            background-image: url('NewBackgroundRedCYS.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: var(--text-color);
+            font-family: var(--font-stack);
+            font-size: var(--font-size);
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        
+        h1 {
+            margin: 40px 0 20px;
+            color: var(--header-color);
+            font-size: 2em;
+            animation: pulse 2s infinite, moveUpDown 3s infinite;
+        }
+        
+        .top-three-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            gap: 20px;
+        }
+        
+        .top-three-container>div {
+            border: 3px solid var(--accent-color);
+            border-radius: 10px;
+            padding: 10px;
+            width: 120px;
+            height: 180px;
+            background: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.2s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .top-three-container>div:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        .top-three-container>div img {
+            width: 80px;
+            height: auto;
+        }
+        
+        .top-three-container>div h2 {
+            margin: 5px 0;
+            color: var(--header-color);
+            font-size: 1.1em;
+        }
+        
+        .top-three-container>div p {
+            margin: 2px 0;
+            font-size: 0.9em;
+        }
+        
+        .first-place {
+            border-color: var(--first-place-color);
+        }
+        
+        .second-place {
+            border-color: var(--second-place-color);
+        }
+        
+        .third-place {
+            border-color: var(--third-place-color);
+        }
+        
+        table {
+            width: 80%;
+            margin: 0 auto 40px;
+            border-collapse: collapse;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        th {
+            background-color: var(--accent-color);
+            color: #FFFFFF;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.1em;
+        }
+        
+        td {
+            padding: 10px;
+            text-align: center;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #FFE5E5;
+        }
+        
+        footer {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #000000;
+            color: #fdfffe;
+            text-align: center;
+        }
+        
+        footer p {
+            margin: 0;
+            font-size: 0.9em;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                text-shadow: 0 0 10px #e67213, 0 0 20px #e67213, 0 0 30px #e67213;
+            }
+            50% {
+                transform: scale(1.05);
+                text-shadow: 0 0 20px #e06c6c, 0 0 30px #e06c6c, 0 0 40px #e06c6c;
+            }
+            100% {
+                transform: scale(1);
+                text-shadow: 0 0 10px #b04c0d, 0 0 20px #b04c0d, 0 0 30px #b04c0d;
+            }
+        }
+        /* Responsive styles */
+        
+        @media (max-width: 768px) {
+            .top-three-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .top-three-container>div {
+                width: 90%;
+                margin: 0 auto;
+            }
+            table {
+                width: 95%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.5em;
+            }
+            th,
+            td {
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+        import { getDatabase, ref, query, orderByChild, equalTo, onValue } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js";
+    
+        // Firebase project's actual configuration details
+        const firebaseConfig = {
+            apiKey: "AIzaSyBLX9_QPBypy_bWmTT9pgqGAB_DyvcwYKw",
+            authDomain: "contactform-cf879.firebaseapp.com",
+            databaseURL: "https://contactform-cf879-default-rtdb.firebaseio.com",
+            projectId: "contactform-cf879",
+            storageBucket: "contactform-cf879.appspot.com",
+            messagingSenderId: "1039607406563",
+            appId: "1:1039607406563:web:2a068162324f875ca1cad6"
+        };
+    
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+    
+        // Reference to 'contactForm' in your Firebase database
+        const dbRef = ref(database, 'contactForm');
+        // Query for entries where 'team' equals 'RED'
+        const redTeamQuery = query(dbRef, orderByChild('team'), equalTo('RED'));
+    
+        onValue(redTeamQuery, (snapshot) => {
+          const entries = [];
+          snapshot.forEach((childSnapshot) => {
+            const entry = childSnapshot.val();
+            // Ensure that entries have 'points' to be included
+            if (entry.hasOwnProperty('points')) {
+              entries.push(entry);
+            }
+          });
+    
+          // Sort entries by 'points' in descending order
+          entries.sort((a, b) => b.points - a.points);
+    
+          // Dynamically update the leaderboard
+          const tableBody = document.querySelector('#leaderboard tbody');
+          tableBody.innerHTML = ''; // Clear previous entries
+    
+          entries.forEach((entry, index) => {
+            const row = tableBody.insertRow();
+            const rankCell = row.insertCell(0);
+            const nameCell = row.insertCell(1);
+            const scoreCell = row.insertCell(2);
+    
+            rankCell.textContent = index + 1;
+            nameCell.textContent = entry.name;
+            scoreCell.textContent = entry.points; // Use 'points' directly
+          });
+    
+          // Update top three placeholders based on entries
+          ['first', 'second', 'third'].forEach((place, index) => {
+            document.getElementById(`${place}-name`).textContent = entries[index]?.name ?? '-';
+            document.getElementById(`${place}-score`).textContent = entries[index]?.points ?? '0'; // Display '0' if 'points' is not available
+          });
+        });
+    </script>
+   <body>
+    <img src="imgRedCYS.png" alt="Leaderboard Top Image" style="width:100%; height:auto; max-width:1920px; margin-top:10px;">
+    <h1>🏆 Red Team Top Hackers 🏆</h1>
+    <img src="data:image/png;base64,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">
+    <div class="top-three-container">
+        <div class="second-place">
+            <img src="new2ST.png" alt="Second Place">
+            <h2>2nd Place</h2>
+            <p id="second-name">-</p>
+            <p id="second-score">-</p>
+        </div>
+        <div class="first-place">
+            <img src="new1ST.png" alt="First Place">
+            <h2>1st Place</h2>
+            <p id="first-name">-</p>
+            <p id="first-score">-</p>
+        </div>
+        <div class="third-place">
+            <img src="New3ST.png" alt="Third Place">
+            <h2>3rd Place</h2>
+            <p id="third-name">-</p>
+            <p id="third-score">-</p>
+        </div>
+    </div>
+
+    <table id="leaderboard">
+        <tbody>
+            <!-- Leaderboard rows will be populated here -->
+
+    </table>
+
+    </table>
+
+</body>
+
+</html>
+
+</tbody>
+
+</table>
+<audio id="backgroundMusic" loop>
+        <source src="video.mp3" type="audio/mp3">
+        Your browser does not support the audio element.
+    </audio>
+
+<footer>
+    &copy; 2024, Hessa Albaqami. All rights reserved.
+</footer>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-database.js"></script>
+<script src="redteam.js"></script>
+<script>
+    // Play audio after a user interaction
+    document.body.addEventListener('click', function() {
+        var audio = document.getElementById('backgroundMusic');
+        if (audio.paused) {
+            audio.play();
+        }
+    }, {
+        once: true
+    }); // Ensures the audio play trigger is a one-time event
+</script>
+</body>
+
+</html>
