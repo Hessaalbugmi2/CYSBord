@@ -193,7 +193,7 @@
     // Reference to 'contactForm' in your Firebase database
     const dbRef = ref(database, 'contactForm');
     // Query for entries where 'team' equals 'RED'
-    const redTeamQuery = query(dbRef, orderByChild('team'), equalTo('RED'));
+    const redTeamQuery = query(dbRef, orderByChild('team'), equalTo('BLUE'));
 
     onValue(redTeamQuery, (snapshot) => {
       const entries = [];
