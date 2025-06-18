@@ -5,9 +5,10 @@ During my time in the bootcamp, I leveraged my web development skills to design 
 🔧 Key Features
 Dynamic Leaderboard UI
 A real-time, web-based leaderboard displaying all bootcamp participants and their scores.
-🔗 Live Demo - BLUE Version
-🔗 Live Demo - RED Version
-🔗 Hosted App
+🔗 Live Demo - https://main--cysbord.netlify.app/blue-team
+🔗 Live Demo - https://main--cysbord.netlify.app/red-tea
+🔗 Live Demo - https://main--pentest-leaderbord.netlify.app/
+
 
 Database Integration
 Seamlessly stores and updates participant data, including scores and daily check-ins.
